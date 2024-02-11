@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to HTML Table with React</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- React JS -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <!-- React DOM JS -->
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Babel JS -->
+    <link rel="stylesheet" href="styles.css"><a href="file:///C:/Users/Owner/Downloads/Gimm%20260%20Website%20VR/reactPage.html"></a>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            background: url('images/360_F_632218832_jZotEXTffqrDEv60Xi5Wvcg8IjCfkEoC.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="navigateTo('index')"><i class="fa fa-home"></i> Home</button>
+        <button onclick="navigateTo('TextPage')"><i class="fa fa-vr-cardboard"></i> About VR</button>
+        <button onclick="navigateTo('VideoPage')"><i class="fa fa-video"></i> Video</button>
+        <button onclick="navigateTo('SankeyGraph')"><i class="fa fa-chart-line"></i> Graph</button>
+        <button onclick="navigateTo('salesPage1')"><i class="fa fa-chart-bar"></i> Yearly Sales Data</button>
+        <button onclick="navigateTo('reactPage')"><i class="fa fa-server"></i> VR Database</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+<body>
+
+    <header>
+        <h1>Vr Database</h1>
+    </header>
+    
+    <div id="app-container"></div>
+    
+   
+
+    <script type="text/babel">
+        class Filters extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <input type="text" placeholder="Filter by Headset" onChange={this.props.onFilterHeadset} />
+                        <input type="number" placeholder="Filter by Year" onChange={this.props.onFilterYear} />
+                    </div>
+                );
+            }
+        }
+
+        class TableDisplay extends React.Component {
+            handleSort = (key) => {
+                this.props.onSort(key);
+            }
+
+            renderTableData() {
+                const { data } = this.props;
+                if (!Array.isArray(data) || data.length === 0) {
+                    return <div className="table-responsive">No data available</div>;
+                }
+
+                const headers = Object.keys(data[0]);
+
+                return (
+                    <div className="table-responsive">
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    {headers.map(header => (
+                                        <th key={header} onClick={() => this.handleSort(header)}>
+                                            {header}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map((item, index) => (
+                                    <tr key={index}>
+                                        {headers.map(header => <td key={`${index}-${header}`}>{item[header]}</td>)}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            }
+
+            render() {
+                return this.renderTableData();
+            }
+        }
+        
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    originalData: jsonData,
+                    filteredData: jsonData,
+                    sortKey: '',
+                    sortOrder: 'asc'
+                };
+            }
+
+            filterHeadset = (event) => {
+                const searchText = event.target.value.toLowerCase();
+                const filteredData = this.state.originalData.filter(item => 
+                    item.Headset.toLowerCase().includes(searchText));
+                this.setState({ filteredData });
+            };
+
+            filterYear = (event) => {
+                const year = event.target.value;
+                const filteredData = this.state.originalData.filter(item => 
+                    item.YearReleased === year);
+                this.setState({ filteredData });
+            };
+
+            sortData = (key) => {
+                const { filteredData, sortKey, sortOrder } = this.state;
+                let sortedData = filteredData.slice();
+                if (key === sortKey) {
+                    sortedData.reverse();
+                    this.setState({ sortOrder: sortOrder === 'asc' ? 'desc' : 'asc' });
+                } else {
+                    sortedData.sort((a, b) => {
+                        if (key === 'YearReleased' || key === 'SalesInMillions' || key === 'Price') {
+                            return sortOrder === 'asc' ? a[key] - b[key] : b[key] - a[key];
+                        }
+                        return sortOrder === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+                    });
+                    this.setState({ sortKey: key, sortOrder: 'asc' });
+                }
+                this.setState({ filteredData: sortedData });
+            };
+
+            render() {
+                return (
+                    <div>
+                        <Filters onFilterHeadset={this.filterHeadset} onFilterYear={this.filterYear} />
+                        <TableDisplay data={this.state.filteredData} onSort={this.sortData} />
+                    </div>
+                );
+            }
+        }
+
+        const jsonData = [
+            { Headset: 'Quest 2', SalesInMillions: 18, Price: '300', YearReleased: '2020' },
+            { Headset: 'PSVR', SalesInMillions: 5, Price: '250', YearReleased: '2014' },
+            { Headset: 'Samsung VR Gear', SalesInMillions: 7.8, Price: '200', YearReleased: '2014' },
+            { Headset: 'Oculus Go', SalesInMillions: 2, Price: '250', YearReleased: '2018' },
+            { Headset: 'Quest 1', SalesInMillions: 15, Price: '550', YearReleased: '2019' },
+            { Headset: 'Google Cardboard', SalesInMillions: 15, Price: '10', YearReleased: '2014' },
+            { Headset: 'Valve Index', SalesInMillions: .4, Price: '750', YearReleased: '2019' },
+            { Headset: 'Xreal', SalesInMillions: .1, Price: '375', YearReleased: '2023' },
+            { Headset: 'DPVR E3C', SalesInMillions: .1, Price: '280', YearReleased: '2017' },
+            { Headset: 'PICO 4', SalesInMillions: .1, Price: '525', YearReleased: '2022' },
+            { Headset: 'Meta Quest Pro', SalesInMillions: 1.5, Price: '1000', YearReleased: '2022' },
+            { Headset: 'VIVE XR Elite', SalesInMillions: .1, Price: '1100', YearReleased: '2021' },
+            { Headset: 'HTC Vive Focus 3', SalesInMillions: .1, Price: '1300', YearReleased: '2021' },
+            { Headset: 'Quest 3', SalesInMillions: 1, Price: '500', YearReleased: '2023' },
+            { Headset: 'Razer OSVR HDK 2', SalesInMillions: 0.1, Price: '399', YearReleased: '2016' },
+            { Headset: 'StarBreeze StarVR', SalesInMillions: 0.1, Price: '3200', YearReleased: '2016' },
+            { Headset: 'Fove 0', SalesInMillions: 0.1, Price: '600', YearReleased: '2017' },
+            { Headset: 'Pimax 4K', SalesInMillions: 0.1, Price: '375', YearReleased: '2017' },
+            { Headset: 'Deepoon VR E3', SalesInMillions: 0.1, Price: '335', YearReleased: '2017' },
+            { Headset: 'Dell Visor', SalesInMillions: 0.1, Price: '335', YearReleased: '2017' },
+            { Headset: 'Acer AH101', SalesInMillions: 0.1, Price: '300', YearReleased: '2017' },
+            { Headset: 'HP WMR Headset', SalesInMillions: 0.1, Price: '449', YearReleased: '2017' },
+            { Headset: 'Lenovo Explorer', SalesInMillions: 0.3, Price: '475', YearReleased: '2017' },
+            { Headset: 'VRgineers VRHero 5K Plus', SalesInMillions: 0.1, Price: '9000', YearReleased: '2017' },
+            { Headset: 'Magic Leap 2', SalesInMillions: 0.1, Price: '3299', YearReleased: '2022' },
+            { Headset: 'Pimax Reality 12K QLED', SalesInMillions: 0.1, Price: '2400', YearReleased: '2022' },
+            { Headset: 'Pimax Crystal', SalesInMillions: 0.1, Price: '1899', YearReleased: '2022', Note: 'Possible shipping delays' },
+            { Headset: 'Vuzix Shield', SalesInMillions: 0.1, Price: '1999', YearReleased: '2022' },
+            { Headset: 'PlayStation VR2', SalesInMillions: 0.1, Price: '575', YearReleased: '2023' },
+            { Headset: 'HP Reverb G2', SalesInMillions: 0.5, Price: '599', YearReleased: '2020' },
+            { Headset: 'Varjo VR-3', SalesInMillions: 0.1, Price: '3200', YearReleased: '2021' },
+            { Headset: 'Vive Cosmos', SalesInMillions: 0.2, Price: '699', YearReleased: '2019' },
+            { Headset: 'Oculus Rift S', SalesInMillions: 3, Price: '399', YearReleased: '2019' },
+            { Headset: 'Panasonic VR Glasses', SalesInMillions: 0.1, Price: '1500', YearReleased: '2021' },
+        { Headset: 'Samsung Odyssey+', SalesInMillions: 1.2, Price: '500', YearReleased: '2018' },
+        { Headset: 'LG UltraGear VR', SalesInMillions: 0.4, Price: '650', YearReleased: '2021' },
+        { Headset: 'DecaGear 1', SalesInMillions: 0.2, Price: '450', YearReleased: '2021' },
+    { Headset: 'Varjo Aero', SalesInMillions: 0.1, Price: '1990', YearReleased: '2021' },
+    { Headset: 'HP Reverb G2 Omnicept Edition', SalesInMillions: 0.1, Price: '1250', YearReleased: '2021' },
+    { Headset: 'KTROK Virtual Reality Glasses', SalesInMillions: 0.1, Price: '4000', YearReleased: '2022' },
+            { Headset: 'HTC Vive Pro Eye', SalesInMillions: 0.1, Price: '3425', YearReleased: '2019' },
+         { Headset: 'FOUCS 3', SalesInMillions: 0.1, Price: '3100', YearReleased: '2020' },
+         { Headset: 'Switch Vr', SalesInMillions: 0.2, Price: '40', YearReleased: '2021' },
+            { Headset: 'DESTEK V5', SalesInMillions: 0.1, Price: '30', YearReleased: '2023' },
+            { Headset: 'VR SHINECON', SalesInMillions: 0.1, Price: '40', YearReleased: '2018' },
+            { Headset: 'RIPIAN vr', SalesInMillions: 0.1, Price: '4450', YearReleased: '2023' },
+        { Headset: 'HTC Vive Pro 2', SalesInMillions: 0.2, Price: '575', YearReleased: '2021' }
+        ];
+
+        ReactDOM.render(<App />, document.getElementById('app-container'));
+    </script>
+    <div class="container">
+        <div class="text-background3">
+            <h2>What Does This Data Tell Us</h2>
+            <p>This database of VR headsets shows most of the different opinions of headsets you can buy with current price, total amount sold since it was released and year released, an overall useful tool when looking for VR headsets to buy.  It is important to note that any value marked 0.1 is less than 100,000 sales.  The biggest conlusion that I can make is that cheap, standalone Headsets sell the most.</p>
+        </div>
+    </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/
+
+

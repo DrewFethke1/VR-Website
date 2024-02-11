@@ -1,0 +1,304 @@
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #4f31e9;
+}
+nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem;
+    background: #444;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+main {
+    padding: 1rem;
+}
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+@media screen and (max-width: 600px) {
+    nav {
+        flex-direction: column;
+    }
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+}
+
+.header, .footer {
+    background-color: #003366;
+    color: #fff;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #fff;
+}
+
+.table thead {
+    background-color: #0055b7;
+    color: #fff;
+}
+
+.table td, .table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table tr:nth-child(even){background-color: #f2f2f2;}
+
+.table tr:hover {background-color: #ddd;}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.input-field {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+#my_dataviz {
+    margin: auto;
+    width: 90%; 
+    padding: 20px;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: rgb(53, 17, 198);
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 12px;
+}
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+
+header {
+    background: rgb(27, 72, 161); 
+    color: rgb(0, 0, 0); 
+    padding-top: 55px;
+    min-height: 25px;
+    border-bottom: #0b0d9b 10px solid;
+    animation: colorChange 10s infinite; 
+}
+
+.header2 {
+    color: rgb(0, 0, 0); 
+    padding-top: 35px;
+    min-height: 25px;
+}
+
+
+
+
+@keyframes colorChange {
+    0% { color: rgb(0, 0, 0); } 
+    25% { color: rgb(255, 255, 255); } 
+    50% { color: rgb(22, 159, 204); } 
+    75% { color: rgb(255, 255, 255); } 
+    100% { color: rgb(0, 0, 0); } 
+}
+
+header h1 {
+    padding: 5px 0;
+}
+
+.video-container {
+    text-align: center;
+    padding: 80px 0;
+}
+.text-background {
+    background-color: rgb(42, 45, 228); 
+    color: #000000; 
+    padding: 75px; 
+    border-radius: 180px; 
+    width: auto; 
+    margin: 75px; 
+    font-family: 'Arial', sans-serif; 
+}
+.text-background2 {
+    background-color: rgb(59, 153, 211); 
+    color: #000000; 
+    padding: 25px; 
+    border-radius: 180px; 
+    width: auto; 
+    margin: 25px; 
+    font-family: 'Arial', sans-serif; 
+}
+.text-background3 {
+    background-color: rgb(59, 211, 160); 
+    color: #000000; 
+    padding: 25px; 
+    border-radius: 45px; 
+    width: auto; 
+    margin: 25px; 
+    font-family: 'Arial', sans-serif; 
+}
+.text-background4 {
+    background-color: rgb(93, 190, 37); 
+    color: #000000; 
+    padding: 25px; 
+    border-radius: 60px; 
+    width: auto; 
+    margin: 25px; 
+    font-family: 'Arial', sans-serif; 
+}
+.text-background5 {
+    background-color: rgb(37, 83, 190); 
+    color: #000000; 
+    padding: 25px; 
+    border-radius: 60px; 
+    width: auto; 
+    margin: 25px; 
+    font-family: 'Arial', sans-serif; 
+}
+body {
+    font-family: 'Arial', sans-serif; 
+    background-color: #f4f7fc; 
+    color: #000000; 
+    font-size: 18px; 
+    line-height: 1.6; 
+    letter-spacing: 0.5px; 
+    text-shadow: 0px 1px 1px rgba(0,0,0,0.1); 
+    padding: 20px; 
+    margin: 0; 
+}
+#my_dataviz {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.link {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .2;
+}
+.link:hover {
+    stroke-opacity: .5;
+}
+header .container2 {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100px; 
+}
+
+header #branding {
+    text-align: center;
+}
+.body2 {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Style for the scatter plot */
+.dot {
+    fill: rgb(4, 7, 13);
+    opacity: 0.7;
+}
+
+.dot:hover {
+    stroke: black;
+}
+
+.axis-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+svg {
+    overflow: visible;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7); 
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.navbar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background 0.3s ease;
+}
+
+.navbar button:hover {
+    background: rgba(6, 11, 156, 0.2);
+}
+
+.navbar i {
+    margin-right: 5px;
+}
+
+#content {
+padding-top: 60px; 
+height: calc(100% - 60px); 
+background: url('images/vr-headset-1671864119021.jpg') no-repeat center center fixed; 
+background-size: cover;
+overflow: auto;
+}

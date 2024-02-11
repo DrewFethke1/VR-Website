@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VR World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    body {
+    background: url('./images/vr-headset-1671864119022.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="navigateTo('index')"><i class="fa fa-home"></i> Home</button>
+        <button onclick="navigateTo('TextPage')"><i class="fa fa-vr-cardboard"></i> About VR</button>
+        <button onclick="navigateTo('VideoPage')"><i class="fa fa-video"></i> Video</button>
+        <button onclick="navigateTo('SankeyGraph')"><i class="fa fa-chart-line"></i> Graph</button>
+        <button onclick="navigateTo('salesPage1')"><i class="fa fa-chart-bar"></i> Yearly Sales Data</button>
+        <button onclick="navigateTo('reactPage')"><i class="fa fa-server"></i> VR Database</button>
+    </div>
+    <script src="script.js"></script>
+
+<div class="container">
+    <header>
+        <h1>Top Ten VR games in 2023</h1>
+    </header>
+
+    <main>
+        <section class="video-container">
+            <iframe width="1120" height="630" src="https://www.youtube.com/embed/fFPcqK4Gpe4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </section>
+    </main>
+
+    <footer>
+    </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

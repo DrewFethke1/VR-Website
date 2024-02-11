@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <!-- Load the sankey.js function -->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/sankey.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"><a href="file:///C:/Users/Owner/Downloads/Gimm%20260%20Website%20VR/reactPage.html"></a>
+    <style>
+    body {
+            background: url('images/abstract-vector-blue-background-graphic-01h9892t3ma7qe6tm55ckyxvyd_preview.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="navigateTo('index')"><i class="fa fa-home"></i> Home</button>
+        <button onclick="navigateTo('TextPage')"><i class="fa fa-vr-cardboard"></i> About VR</button>
+        <button onclick="navigateTo('VideoPage')"><i class="fa fa-video"></i> Video</button>
+        <button onclick="navigateTo('SankeyGraph')"><i class="fa fa-chart-line"></i> Graph</button>
+        <button onclick="navigateTo('salesPage1')"><i class="fa fa-chart-bar"></i> Yearly Sales Data</button>
+        <button onclick="navigateTo('reactPage')"><i class="fa fa-server"></i> VR Database</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+<body>
+    <header>
+        <h1>Interactive Market Share Graph</h1>
+    </header>
+    <div id="my_dataviz"></div>
+    
+
+    <script>
+    var margin = {top: 10, right: 10, bottom: 10, left: 10},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Color scale used
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+    // Set the sankey diagram properties
+    var sankey = d3.sankey()
+        .nodeWidth(36)
+        .nodePadding(10)
+        .size([width, height]);
+
+
+    var graph = {
+    "nodes": [
+        {"name": "Total VR Market 2023"},
+        {"name": "Meta"},
+        {"name": "Sony"},
+        {"name": "Valve Index"},
+        {"name": "Other Companies"},
+        {"name": "Meta - Quest Standalone"},
+        {"name": "Meta - Quest on PC"},
+        {"name": "HTC"},
+        {"name": "Pico"},
+    ],
+    "links": [
+        {"source": 0, "target": 1, "value": 50.2},  // Meta's share
+        {"source": 0, "target": 2, "value": 27.1},  // Sony's share
+        {"source": 0, "target": 3, "value": 3.1},    // Valve Index's share
+        {"source": 0, "target": 4, "value": 4.32},   // Remaining share for other companies
+        {"source": 0, "target": 7, "value": 2},     // Estimated HTC's share
+        {"source": 0, "target": 8, "value": 2},     // Estimated Pico's share
+
+        // Breaking down Meta's share
+        {"source": 1, "target": 5, "value": 30},    // Estimated for Quest Standalone
+        {"source": 1, "target": 6, "value": 20.2}   // Estimated for Quest on PC
+    ]
+};
+
+    // Constructs a new Sankey generator with the default settings.
+    sankey
+        .nodes(graph.nodes)
+        .links(graph.links)
+        .layout(1);
+
+    // add in the links
+    var link = svg.append("g")
+        .selectAll(".link")
+        .data(graph.links)
+        .enter()
+        .append("path")
+            .attr("class", "link")
+            .attr("d", sankey.link())
+            .style("stroke-width", function(d) { return Math.max(1, d.dy); })
+            .sort(function(a, b) { return b.dy - a.dy; });
+
+    // add in the nodes
+    var node = svg.append("g")
+        .selectAll(".node")
+        .data(graph.nodes)
+        .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+            .call(d3.drag()
+                .subject(function(d) { return d; })
+                .on("start", function() { this.parentNode.appendChild(this); })
+                .on("drag", dragmove));
+
+    // add the rectangles for the nodes
+    node
+        .append("rect")
+            .attr("height", function(d) { return d.dy; })
+            .attr("width", sankey.nodeWidth())
+            .style("fill", function(d) { return d.color = color(d.name.replace(/ .*/, "")); })
+            .style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
+            .append("title")
+            .text(function(d) { return d.name + "\n" + "Market share: " + d.value + "%"; });
+
+    // add in the title for the nodes
+    node
+        .append("text")
+            .attr("x", -6)
+            .attr("y", function(d) { return d.dy / 2; })
+            .attr("dy", ".35em")
+            .attr("text-anchor", "end")
+            .attr("transform", null)
+            .text(function(d) { return d.name; })
+            .filter(function(d) { return d.x < width / 2; })
+            .attr("x", 6 + sankey.nodeWidth())
+            .attr("text-anchor", "start");
+
+    // the function for moving the nodes
+    function dragmove(d) {
+        d3.select(this)
+            .attr("transform",
+                "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
+        sankey.relayout();
+        link.attr("d", sankey.link());
+    }
+    </script>
+<div class="container">
+    <div class="text-background4">
+        <h2>What Does This Graph Tell us</h2>
+        <p>
+            This graph shows an overview of the 2023 market share distribution among the leading VR companies. It highlights Meta's continued dominance in the market, a trend that has been consistent over recent years. Notably, the graph also shows a significant resurgence of PSVR, indicating a competitive shift in the virtual reality landscape. This data provides a clear perspective on the current montary shares of the VR market.
+        </p>
+    </div>
+</div>
+</body>
+</html>

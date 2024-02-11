@@ -1,0 +1,4 @@
+http://localhost:8080
+cd C:\Users\Owner\Downloads\Gimm 260 Website VR
+http-server
+Open webpage by opening index.htm in browser
